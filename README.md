@@ -1,5 +1,5 @@
 # Company shares reports app
-Web app using  [iexcloud.io](https://iexcloud.io/)
+Web app using  [iexcloud.io](https://iexcloud.io/)  
 Deploy: [webpage](https://company-shares-peach.vercel.app/)
 
 ## Project Goals
