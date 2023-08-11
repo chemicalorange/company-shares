@@ -18,7 +18,6 @@ export const companySharesSlice = createSlice({
       const [reorderedItem] = items.splice(srcIndex, 1)
 
       items.splice(destIndex, 0, reorderedItem)
-      console.log(items)
       state.data = items
     },
   },
