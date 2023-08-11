@@ -20,4 +20,8 @@
   padding: 10px;
   width: 90%;
   outline: 1px solid var(--blue);
+
+  &:first-child {
+    width: 30px;
+  }
 }

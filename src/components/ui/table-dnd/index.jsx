@@ -12,14 +12,20 @@ export function TableDnd({ titles, elements, onUpdate }) {
   }
   return (
     <TableContainer>
-      <TableHead titles={titles} />
+      <TableHead titles={['#', ...titles]} />
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId={'table-droppable'}>
           {(provided) => (
             <TableBody innerRef={provided.innerRef} provided={provided}>
               {elements.map((row, index) => (
                 <Draggable draggableId={row.id} index={index} key={row.id}>
-                  {(provided) => <TableRow elements={row} provided={provided} innerRef={provided.innerRef} />}
+                  {(provided) => (
+                    <TableRow
+                      elements={{ number: index + 1, ...row }}
+                      provided={provided}
+                      innerRef={provided.innerRef}
+                    />
+                  )}
                 </Draggable>
               ))}
             </TableBody>
