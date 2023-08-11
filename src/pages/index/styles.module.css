@@ -1,0 +1,15 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.pagination button {
+  background: var(--blue);
+  color: var(--white);
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
