@@ -1,4 +1,4 @@
-# Company shares reports
+# Company shares reports app
 Web app using  [iexcloud.io](https://iexcloud.io/)
 Deploy: [webpage](https://company-shares-peach.vercel.app/)
 
