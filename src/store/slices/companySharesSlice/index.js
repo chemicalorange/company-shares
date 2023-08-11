@@ -12,8 +12,14 @@ export const companySharesSlice = createSlice({
   name: 'company-shares',
   initialState,
   reducers: {
-    updateCompanyShares: (state, action) => {
-      state.data = action.payload
+    updateOrder: (state, action) => {
+      const { srcIndex, destIndex } = action.payload
+      const items = Array.from(state.data)
+      const [reorderedItem] = items.splice(srcIndex, 1)
+
+      items.splice(destIndex, 0, reorderedItem)
+      console.log(items)
+      state.data = items
     },
   },
   extraReducers: (builder) => {
@@ -22,6 +28,6 @@ export const companySharesSlice = createSlice({
     })
   },
 })
-export const { updateCompanyShares } = companySharesSlice.actions
+export const { updateOrder } = companySharesSlice.actions
 
 export default companySharesSlice.reducer

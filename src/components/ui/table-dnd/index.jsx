@@ -1,14 +1,15 @@
 import { TableBody, TableContainer, TableHead, TableRow } from '../table'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { useDispatch } from 'react-redux'
+import { updateOrder } from '../../../store/slices/companySharesSlice'
 
-export function TableDnd({ titles, elements, onUpdate }) {
+export function TableDnd({ titles, elements, firstIndex }) {
+  const dispatch = useDispatch()
   const handleOnDragEnd = (result) => {
     if (!result.destination) return
-
-    const items = Array.from(elements)
-    const [reorderedItem] = items.splice(result.source.index, 1)
-    items.splice(result.destination.index, 0, reorderedItem)
-    onUpdate(items)
+    dispatch(
+      updateOrder({ srcIndex: firstIndex + result.source.index, destIndex: firstIndex + result.destination.index }),
+    )
   }
   return (
     <TableContainer>

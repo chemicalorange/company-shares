@@ -1,6 +1,6 @@
 import styles from './styles.module.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchCompanyShares, updateCompanyShares } from '../../store/slices/companySharesSlice'
+import { fetchCompanyShares } from '../../store/slices/companySharesSlice'
 import { useEffect } from 'react'
 import usePagination from '../../hooks/usePagination'
 import { TableDnd } from '../../components/ui/table-dnd'
@@ -18,24 +18,14 @@ export function IndexPage() {
     dispatch(fetchCompanyShares())
   }, [dispatch])
 
-  const updateOrder = (array) => {
-    const newArray = [...companyShares.data]
-    const newValues = [...array]
-    for (let i = firstContentIndex; i < firstContentIndex + array.length; i++) {
-      let newItem = newValues.shift()
-      newArray[i] = newItem
-    }
-    dispatch(updateCompanyShares(newArray))
-  }
-
   return (
     <div className={styles.wrapper}>
       {companyShares.data && (
         <>
           <TableDnd
             titles={Object.keys(companyShares.data[0])}
+            firstIndex={firstContentIndex}
             elements={companyShares.data.filter((_, index) => index >= firstContentIndex && index < lastContentIndex)}
-            onUpdate={updateOrder}
           />
           <div className={styles.pagination}>
             <button onClick={prevPage} disabled={1 === page}>
