@@ -5,14 +5,15 @@
 
 .spinner div {
   position: absolute;
-  width: 110px;
-  height: 110px;
+  width: 60px;
+  height: 60px;
   border: 15px solid var(--blue);
   border-top-color: transparent;
   border-radius: 50%;
   animation: spinner-animation 1s linear infinite;
   top: 100px;
-  left: 100px
+  left: 100px;
+  box-sizing: content-box;
 }
 
 .spinnerContainer {
@@ -31,4 +32,3 @@
   backface-visibility: hidden;
   transform-origin: 0 0;
 }
-.spinner div { box-sizing: content-box; }

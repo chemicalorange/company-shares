@@ -6,8 +6,13 @@ const initialState = {
   status: null,
 }
 
-export const fetchCompanyShares = createAsyncThunk('users/fetchByIdStatus', async () => {
-  return await companySharesAPI.fetchCompanyShares()
+export const fetchCompanyShares = createAsyncThunk('companyShares/fetchAll', async (_, { rejectWithValue }) => {
+  const items = await companySharesAPI.fetchCompanyShares()
+  if (Array.isArray(items)) {
+    return items
+  }
+  console.log(items)
+  return rejectWithValue(items.message)
 })
 export const companySharesSlice = createSlice({
   name: 'company-shares',
@@ -23,18 +28,18 @@ export const companySharesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchCompanyShares.pending, (state) => {
-      state.status = 'pending'
-    })
-
-    builder.addCase(fetchCompanyShares.fulfilled, (state, action) => {
-      state.items = action.payload
-      state.status = 'fulfilled'
-    })
-
-    builder.addCase(fetchCompanyShares.fulfilled, (state) => {
-      state.status = 'rejected'
-    })
+    builder
+      .addCase(fetchCompanyShares.pending, (state) => {
+        state.status = 'pending'
+      })
+      .addCase(fetchCompanyShares.rejected, (state) => {
+        state.items = null
+        state.status = 'rejected'
+      })
+      .addCase(fetchCompanyShares.fulfilled, (state, action) => {
+        state.items = action.payload
+        state.status = 'fulfilled'
+      })
   },
 })
 export const { updateOrder } = companySharesSlice.actions
