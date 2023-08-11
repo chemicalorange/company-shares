@@ -4,14 +4,16 @@ import { fetchCompanyShares } from '../../store/slices/companySharesSlice'
 import { useEffect } from 'react'
 import usePagination from '../../hooks/usePagination'
 import { TableDnd } from '../../components/ui/table-dnd'
+import { Loading } from '../../components/ui/loading'
 
 export function IndexPage() {
-  const companyShares = useSelector((state) => state.companyShares)
+  const companyShares = useSelector((state) => state.companyShares.items)
+  const reqStatus = useSelector((state) => state.companyShares.status)
   const dispatch = useDispatch()
 
   const { page, nextPage, prevPage, totalPages, firstContentIndex, lastContentIndex } = usePagination({
     contentPerPage: 4,
-    count: companyShares.data ? companyShares.data.length : 0,
+    count: companyShares ? companyShares.length : 0,
   })
 
   useEffect(() => {
@@ -20,12 +22,14 @@ export function IndexPage() {
 
   return (
     <div className={styles.wrapper}>
-      {companyShares.data && (
+      {reqStatus === 'pending' && <Loading />}
+      {reqStatus === 'rejected' && <h2>Cannot fetch data</h2>}
+      {reqStatus === 'fulfilled' && (
         <>
           <TableDnd
-            titles={Object.keys(companyShares.data[0])}
+            titles={Object.keys(companyShares[0])}
             firstIndex={firstContentIndex}
-            elements={companyShares.data.filter((_, index) => index >= firstContentIndex && index < lastContentIndex)}
+            elements={companyShares.filter((_, index) => index >= firstContentIndex && index < lastContentIndex)}
           />
           <div className={styles.pagination}>
             <button onClick={prevPage} disabled={1 === page}>

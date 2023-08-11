@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { companySharesAPI } from '../../api'
 
 const initialState = {
-  data: null,
+  items: null,
+  status: null,
 }
 
 export const fetchCompanyShares = createAsyncThunk('users/fetchByIdStatus', async () => {
@@ -14,16 +15,25 @@ export const companySharesSlice = createSlice({
   reducers: {
     updateOrder: (state, action) => {
       const { srcIndex, destIndex } = action.payload
-      const items = Array.from(state.data)
+      const items = Array.from(state.items)
       const [reorderedItem] = items.splice(srcIndex, 1)
 
       items.splice(destIndex, 0, reorderedItem)
-      state.data = items
+      state.items = items
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchCompanyShares.pending, (state) => {
+      state.status = 'pending'
+    })
+
     builder.addCase(fetchCompanyShares.fulfilled, (state, action) => {
-      state.data = action.payload
+      state.items = action.payload
+      state.status = 'fulfilled'
+    })
+
+    builder.addCase(fetchCompanyShares.fulfilled, (state) => {
+      state.status = 'rejected'
     })
   },
 })
