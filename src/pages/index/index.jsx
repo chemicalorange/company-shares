@@ -12,7 +12,7 @@ export function IndexPage() {
   const dispatch = useDispatch()
 
   const { page, nextPage, prevPage, totalPages, firstContentIndex, lastContentIndex } = usePagination({
-    contentPerPage: 4,
+    contentPerPage: 10,
     count: companyShares ? companyShares.length : 0,
   })
 
