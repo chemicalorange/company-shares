@@ -4,30 +4,43 @@ export const TableContainer = ({ children }) => <table className={styles.contain
 
 export const TableHead = ({ titles }) => (
   <thead>
-    <tr>
-      {titles.map((item, index) => (
-        <TableTitle key={`table-title-${index}`}>{item}</TableTitle>
-      ))}
-    </tr>
+    <tr>{titles && titles.map((item, index) => <TableTitle key={`table-title-${index}`}>{item}</TableTitle>)}</tr>
   </thead>
 )
 
-export const TableBody = ({ children, innerRef, provided }) => (
-  <tbody ref={innerRef} {...provided.droppableProps}>
-    {children}
-    {provided.placeholder}
-  </tbody>
-)
+export const TableBody = ({ children, innerRef, provided }) => {
+  let componentsAttrs = {}
+
+  if (innerRef && provided) {
+    componentsAttrs = {
+      ref: innerRef,
+      ...provided.draggableProps,
+      ...provided.dragHandleProps,
+    }
+  }
+
+  return (
+    <tbody {...componentsAttrs}>
+      {children}
+      {provided && provided.placeholder}
+    </tbody>
+  )
+}
 
 export const TableRow = ({ elements, innerRef, provided }) => {
-  if (!Array.isArray(elements) && typeof elements === 'object') {
-    elements = Object.values(elements)
+  let componentsAttrs = {}
+
+  if (innerRef && provided) {
+    componentsAttrs = {
+      ref: innerRef,
+      ...provided.draggableProps,
+      ...provided.dragHandleProps,
+    }
   }
+
   return (
-    <tr className={styles.row} ref={innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-      {elements.map((item, index) => (
-        <TableItem key={`table-item-${index}`}>{item}</TableItem>
-      ))}
+    <tr className={styles.row} {...componentsAttrs}>
+      {elements && elements.map((item, index) => <TableItem key={`table-item-${index}`}>{item}</TableItem>)}
     </tr>
   )
 }

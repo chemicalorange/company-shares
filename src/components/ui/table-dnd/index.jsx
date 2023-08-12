@@ -22,7 +22,7 @@ export function TableDnd({ titles, elements, firstIndex }) {
                 <Draggable draggableId={row.id} index={index} key={row.id}>
                   {(provided) => (
                     <TableRow
-                      elements={{ number: index + 1, ...row }}
+                      elements={[index + 1, ...Object.values(row)]}
                       provided={provided}
                       innerRef={provided.innerRef}
                     />
